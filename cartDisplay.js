@@ -9,6 +9,19 @@ function displayCart() {
 
     table.innerHTML = "";
 
+    if (cart.length === 0) {
+
+    table.innerHTML =
+        "<tr><td colspan='5'>Cart is empty</td></tr>";
+
+    document.getElementById(
+        "cart-total"
+    ).innerText =
+        "Total: $0.00";
+
+    return;
+}
+
     cart.forEach(item => {
 
         const row =
@@ -20,15 +33,15 @@ function displayCart() {
         total += itemTotal;
 
         row.innerHTML = `
-
-            <td>${item.name}</td>
-
-            <td>$${item.price}</td>
-
-            <td>${item.quantity}</td>
-
-            <td>$${itemTotal.toFixed(2)}</td>
-
+        <td>${item.name}</td>
+        <td>$${item.price.toFixed(2)}</td>
+        <td>${item.quantity}</td>
+        <td>$${itemTotal.toFixed(2)}</td>
+        <td>
+        <button onclick="removeItem('${item.id}')">
+        🗑 Remove
+        </button>
+        </td>
         `;
 
         table.appendChild(row);
@@ -40,6 +53,20 @@ function displayCart() {
     ).innerText =
         "Total: $" +
         total.toFixed(2);
+
+}
+
+function removeItem(id) {
+
+    cart =
+        cart.filter(
+            item =>
+                item.id !== id
+        );
+
+    saveCart();
+
+    displayCart();
 
 }
 
